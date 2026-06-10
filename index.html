@@ -23,6 +23,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; -webkit-font-smoothing: antialiased; }
     body { background-color: var(--lune-bg-cream); color: var(--lune-text-black); overflow-x: hidden; }
 
+    /* 모바일 분기 처리를 위한 공통 클래스 */
+    .mobile-only { display: none; }
+    .pc-only { display: inline-block; }
+    .mobile-br { display: none; }
+
     /* 2. 상단 네비게이션 */
     .blab-header {
       width: 100%; padding: 30px 5%; display: flex; justify-content: space-between; align-items: center;
@@ -53,7 +58,6 @@
     .blab-title-line { display: block; overflow: hidden; padding-bottom: 10px; }
     .blab-title-line span { display: inline-block; transform: translateY(110%); }
 
-    /* 텍스트 50% 느리게 등장 (1.8s) + 이미지 로드 후 좌측 정렬 (2.5s 후) */
     .line-1 span { animation: slideUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.1s; }
     .line-2 span { 
       margin-left: 10vw; 
@@ -74,12 +78,11 @@
     @keyframes alignLeft { to { margin-left: 0; } }
     @keyframes fadeIn { to { opacity: 1; } }
 
-    /* 4. [수정 2-1, 2-2] 브랜드 철학 섹션 */
-    /* 섹션 높이 50% 축소 (180px -> 90px) */
+    /* 4. 브랜드 철학 섹션 (압축된 높이) */
     .blab-story { padding: 90px 5%; text-align: center; border-top: 1px solid var(--lune-accent-line); }
     .blab-story-title {
       font-family: 'Pretendard', sans-serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
       font-weight: 600; 
       font-style: normal; 
       line-height: 1.4;
@@ -92,17 +95,23 @@
       max-width: 650px; margin: 0 auto;
     }
 
-    /* 행 단위 순차 애니메이션 (서브 텍스트 포함) */
+    /* 행 단위 순차 애니메이션 */
     .story-line-wrap { display: block; overflow: hidden; margin-bottom: 5px; }
     .story-line {
       display: inline-block; opacity: 0; transform: translateY(40px);
       transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .blab-story.active .story-line-wrap:nth-child(1) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
-    .blab-story.active .story-line-wrap:nth-child(2) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
-    .blab-story.active .story-line-wrap .desc-line { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+    
+    /* PC, Mobile 상관없이 등장하는 순서대로 시차 적용 */
+    .blab-story.active .story-line-wrap:nth-of-type(1) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    .blab-story.active .story-line-wrap:nth-of-type(2) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+    .blab-story.active .story-line-wrap:nth-of-type(3) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.5s; }
+    .blab-story.active .story-line-wrap:nth-of-type(4) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
+    .blab-story.active .story-line-wrap:nth-of-type(5) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.9s; }
+    .blab-story.active .story-line-wrap:nth-of-type(6) .story-line { opacity: 1; transform: translateY(0); transition-delay: 1.1s; }
+    .blab-story.active .story-line-wrap .desc-line { opacity: 1; transform: translateY(0); transition-delay: 0.8s; }
 
-    /* 5. 풀사이즈 화보 섹션 (more 버튼 제거) */
+    /* 5. 풀사이즈 화보 섹션 (PC 기준 50vh) */
     .blab-parallax-section {
       width: 100vw; height: 50vh; position: relative; overflow: hidden;
       margin-left: calc(-50vw + 50%); 
@@ -115,7 +124,7 @@
       filter: brightness(0.85);
     }
 
-    /* 6. 메뉴 컬렉션 & [수정 2-3] more 버튼 이동 및 컬러 변경 */
+    /* 6. 메뉴 컬렉션 & more 버튼 */
     .blab-menu { padding: 120px 5%; border-top: 1px solid var(--lune-accent-line); }
     .blab-section-header { font-size: 1rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 80px; }
     .blab-menu-item {
@@ -132,7 +141,6 @@
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 10; box-shadow: 0 30px 60px rgba(0,0,0,0.15);
     }
     
-    /* 메뉴 섹션 하단 버튼 디자인 */
     .blab-menu-action { text-align: center; margin-top: 100px; }
     .blab-more-btn-dark {
       display: inline-block; color: var(--lune-text-black); text-decoration: none; font-size: 0.85rem; font-weight: 700;
@@ -162,36 +170,48 @@
     .store-name { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; text-transform: uppercase; }
     .store-addr { font-size: 0.95rem; color: var(--lune-text-gray); }
 
-    /* 9. [수정 2-4] 푸터 & 실시간 시계 (폰트 완전 일치) */
+    /* 9. 푸터 & 실시간 시계 */
     .blab-footer {
       padding: 60px 5%; display: flex; justify-content: space-between; align-items: center;
       font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
-      border-top: 1px solid var(--lune-accent-line);
+      border-top: 1px solid var(--lune-accent-line); transition: background-color 0.3s ease;
     }
     .blab-footer-right { display: flex; flex-direction: column; text-align: right; gap: 6px; }
-    
-    /* 시계 폰트를 위의 기본 정보와 동일하게 매칭 */
     .blab-footer-time { font-family: 'Pretendard', sans-serif; font-size: 0.85rem; font-weight: 600; }
 
     /* Reveal 애니메이션 기본 */
     .blab-reveal { opacity: 0; transform: translateY(60px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
     .blab-reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* 모바일 반응형 패치 */
-    @media (max-width: 1024px) {
+    /* ==========================================================================
+       [모바일 전용 최적화 구역]
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .pc-only { display: none !important; }
+      .mobile-only { display: inline-block !important; }
+      .mobile-br { display: block !important; }
+
+      .blab-nav { gap: 20px; }
       .blab-hero-img { width: 100%; height: 50vh; position: relative; right: auto; top: auto; transform: none; margin-top: 50px; opacity: 1; animation: none; }
       .line-2 span, .line-3 span { margin-left: 0; animation: slideUp 1.8s forwards 0.2s; }
       .blab-hero { flex-direction: column; padding-top: 150px; text-align: left; }
+      
+      /* 모바일 화보 섹션 높이 축소 (띠 배너 형태 25vh) */
+      .blab-parallax-section { height: 25vh; }
+      
       .blab-location { grid-template-columns: 1fr; }
       .blab-map { min-height: 400px; }
-    }
-    @media (max-width: 768px) {
-      .blab-nav { gap: 20px; }
       .blab-menu-img { display: none; }
-      .blab-footer { flex-direction: column; gap: 30px; text-align: center; }
-      .blab-footer-right { text-align: center; }
       .blab-store-list { padding: 60px 5%; }
-      .blab-story { padding: 60px 5%; } /* 모바일에서는 여백 더 축소 */
+      .blab-story { padding: 60px 5%; } 
+      
+      /* 모바일 푸터 10% 톤다운 및 정렬 */
+      .blab-footer { 
+        flex-direction: column; gap: 30px; text-align: center; 
+        background-color: #e5e2d6; /* 크림 화이트보다 10% 어두운 웜베이지 */
+        padding: 40px 5%;
+      }
+      .blab-footer-right { text-align: center; }
     }
   </style>
 </head>
@@ -220,8 +240,19 @@
 
   <section class="blab-story" id="story">
     <h2 class="blab-story-title blab-reveal-story">
-      <span class="story-line-wrap"><span class="story-line">가장 완벽한 디저트는 타협하지 않는</span></span>
-      <span class="story-line-wrap"><span class="story-line">시간과 온도의 미학에서 탄생합니다.</span></span>
+      
+      <span class="pc-only">
+        <span class="story-line-wrap"><span class="story-line">가장 완벽한 디저트는 타협하지 않는</span></span>
+        <span class="story-line-wrap"><span class="story-line">시간과 온도의 미학에서 탄생합니다.</span></span>
+      </span>
+
+      <span class="mobile-only">
+        <span class="story-line-wrap"><span class="story-line">가장 완벽한 디저트는</span></span>
+        <span class="story-line-wrap"><span class="story-line">타협 하지않는 시간과</span></span>
+        <span class="story-line-wrap"><span class="story-line">온도의 미학에서 탄생</span></span>
+        <span class="story-line-wrap"><span class="story-line">합니다.</span></span>
+      </span>
+      
     </h2>
     <p class="blab-story-desc blab-reveal-story">
       <span class="story-line-wrap"><span class="story-line desc-line">우리는 대량 생산의 공식을 버리고 오직 본질적인 맛의 구조에 집중합니다. 세계 최고 수준의 원재료와 세밀한 수작업을 통해 완성된 에디토리얼 디저트 컬렉션을 경험해 보세요.</span></span>
@@ -245,11 +276,13 @@
         <div class="blab-menu-price">₩ 14,000</div>
         <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=800&q=80" alt="Noir Mousse" class="blab-menu-img">
       </div>
+      
       <div class="blab-menu-item blab-reveal">
-        <div class="blab-menu-title">Classic Canele</div>
+        <div class="blab-menu-title">Classic<br class="mobile-br"> Canele</div>
         <div class="blab-menu-price">₩ 4,500</div>
         <img src="https://images.unsplash.com/photo-1621236378699-8597faf6a176?auto=format&fit=crop&w=800&q=80" alt="Canele" class="blab-menu-img">
       </div>
+      
       <div class="blab-menu-item blab-reveal">
         <div class="blab-menu-title">Pistachio Eclair</div>
         <div class="blab-menu-price">₩ 8,000</div>
@@ -320,7 +353,7 @@
         }
       });
 
-      // Story 섹션 트리거 (순차 등장용)
+      // Story 섹션 트리거
       if(storySection && storySection.getBoundingClientRect().top < windowHeight * 0.8) {
         storySection.classList.add('active');
       }
