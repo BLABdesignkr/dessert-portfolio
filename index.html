@@ -42,7 +42,7 @@
     }
     .blab-nav a:hover::after { width: 100%; }
 
-    /* 3. [수정1] 시그니처 히어로 섹션 (감속 50% & 좌측 정렬 시퀀스) */
+    /* 3. 시그니처 히어로 섹션 */
     .blab-hero { min-height: 100vh; display: flex; align-items: center; padding: 180px 5% 80px 5%; position: relative; }
     .blab-hero-content { position: relative; z-index: 2; width: 100%; }
     .blab-hero-title {
@@ -67,26 +67,32 @@
     .blab-hero-img {
       position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
       width: 45%; height: 70vh; object-fit: cover; z-index: 1;
-      opacity: 0; animation: fadeIn 2s ease forwards 0.8s; /* 텍스트 등장 후 부드럽게 나타남 */
+      opacity: 0; animation: fadeIn 2s ease forwards 0.8s;
     }
 
     @keyframes slideUp { to { transform: translateY(0); } }
     @keyframes alignLeft { to { margin-left: 0; } }
     @keyframes fadeIn { to { opacity: 1; } }
 
-    /* 4. [수정2] 브랜드 철학 (정갈함, 굵기 증가, 순차적 등장) */
-    .blab-story { padding: 180px 5%; text-align: center; border-top: 1px solid var(--lune-accent-line); }
+    /* 4. [수정 2-1, 2-2] 브랜드 철학 섹션 */
+    /* 섹션 높이 50% 축소 (180px -> 90px) */
+    .blab-story { padding: 90px 5%; text-align: center; border-top: 1px solid var(--lune-accent-line); }
     .blab-story-title {
       font-family: 'Pretendard', sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 600; /* 15% 굵게 */
-      font-style: normal; /* 기울임 제거 */
+      font-weight: 600; 
+      font-style: normal; 
       line-height: 1.4;
       letter-spacing: -0.03em;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
     }
     
-    /* 행 단위 순차 애니메이션 */
+    .blab-story-desc {
+      font-size: 1.1rem; line-height: 1.8; color: var(--lune-text-gray);
+      max-width: 650px; margin: 0 auto;
+    }
+
+    /* 행 단위 순차 애니메이션 (서브 텍스트 포함) */
     .story-line-wrap { display: block; overflow: hidden; margin-bottom: 5px; }
     .story-line {
       display: inline-block; opacity: 0; transform: translateY(40px);
@@ -94,29 +100,22 @@
     }
     .blab-story.active .story-line-wrap:nth-child(1) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
     .blab-story.active .story-line-wrap:nth-child(2) .story-line { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+    .blab-story.active .story-line-wrap .desc-line { opacity: 1; transform: translateY(0); transition-delay: 0.7s; }
 
-    /* 5. [수정3 & 4] 풀사이즈 화보 섹션 + 'more' 버튼 */
+    /* 5. 풀사이즈 화보 섹션 (more 버튼 제거) */
     .blab-parallax-section {
       width: 100vw; height: 100vh; position: relative; overflow: hidden;
-      margin-left: calc(-50vw + 50%); /* 컨테이너 무시하고 화면 꽉 채우기 */
+      margin-left: calc(-50vw + 50%); 
     }
     .blab-parallax-bg {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background-image: url('https://images.unsplash.com/photo-1550617931-e17a7b70dce2?auto=format&fit=crop&w=1920&q=80');
-      background-attachment: fixed; /* 패럴랙스 효과 */
+      background-attachment: fixed;
       background-size: cover; background-position: center;
       filter: brightness(0.85);
     }
-    .blab-more-btn {
-      position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
-      color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 700;
-      letter-spacing: 0.2em; text-transform: uppercase;
-      padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.4);
-      transition: all 0.4s ease; z-index: 2;
-    }
-    .blab-more-btn:hover { border-bottom-color: #fff; padding-bottom: 12px; }
 
-    /* 6. 메뉴 컬렉션 */
+    /* 6. 메뉴 컬렉션 & [수정 2-3] more 버튼 이동 및 컬러 변경 */
     .blab-menu { padding: 120px 5%; border-top: 1px solid var(--lune-accent-line); }
     .blab-section-header { font-size: 1rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 80px; }
     .blab-menu-item {
@@ -132,6 +131,15 @@
       width: 300px; height: 400px; object-fit: cover; opacity: 0; pointer-events: none;
       transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 10; box-shadow: 0 30px 60px rgba(0,0,0,0.15);
     }
+    
+    /* 메뉴 섹션 하단 버튼 디자인 */
+    .blab-menu-action { text-align: center; margin-top: 100px; }
+    .blab-more-btn-dark {
+      display: inline-block; color: var(--lune-text-black); text-decoration: none; font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; padding-bottom: 8px; border-bottom: 1px solid rgba(17,17,17,0.3);
+      transition: all 0.4s ease;
+    }
+    .blab-more-btn-dark:hover { border-bottom-color: var(--lune-text-black); padding-bottom: 12px; }
 
     /* 7. ORDER NOW 섹션 */
     .blab-order { padding: 200px 5%; text-align: center; background-color: var(--lune-text-black); color: var(--lune-bg-cream); }
@@ -143,25 +151,27 @@
     }
     .blab-btn:hover { transform: scale(1.05); }
 
-    /* 8. [수정5] 영업장 위치 섹션 (Split Layout) */
+    /* 8. 영업장 위치 섹션 */
     .blab-location { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--lune-accent-line); }
     .blab-map { width: 100%; height: 100%; min-height: 500px; background: #e0ded8; position: relative; }
     .blab-map iframe { width: 100%; height: 100%; border: none; filter: grayscale(100%) contrast(1.1); }
     .blab-store-list { padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; }
-    
     .blab-store-item { padding: 30px 0; border-bottom: 1px solid var(--lune-accent-line); transition: padding-left 0.4s ease; cursor: pointer; }
     .blab-store-item:hover { padding-left: 20px; }
     .blab-store-item:first-child { border-top: 1px solid var(--lune-accent-line); }
     .store-name { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; text-transform: uppercase; }
     .store-addr { font-size: 0.95rem; color: var(--lune-text-gray); }
 
-    /* 9. [수정6] 푸터 & 실시간 시계 */
+    /* 9. [수정 2-4] 푸터 & 실시간 시계 (폰트 완전 일치) */
     .blab-footer {
-      padding: 60px 5%; display: flex; justify-content: space-between; align-items: flex-end;
+      padding: 60px 5%; display: flex; justify-content: space-between; align-items: center;
       font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
       border-top: 1px solid var(--lune-accent-line);
     }
-    .blab-footer-time { font-family: var(--blab-font-serif); font-size: 0.75rem; color: var(--lune-text-gray); margin-top: 8px; display: block; letter-spacing: 0.1em; }
+    .blab-footer-right { display: flex; flex-direction: column; text-align: right; gap: 6px; }
+    
+    /* 시계 폰트를 위의 기본 정보와 동일하게 매칭 */
+    .blab-footer-time { font-family: 'Pretendard', sans-serif; font-size: 0.85rem; font-weight: 600; }
 
     /* Reveal 애니메이션 기본 */
     .blab-reveal { opacity: 0; transform: translateY(60px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -178,8 +188,10 @@
     @media (max-width: 768px) {
       .blab-nav { gap: 20px; }
       .blab-menu-img { display: none; }
-      .blab-footer { flex-direction: column; gap: 30px; text-align: center; align-items: center; }
+      .blab-footer { flex-direction: column; gap: 30px; text-align: center; }
+      .blab-footer-right { text-align: center; }
       .blab-store-list { padding: 60px 5%; }
+      .blab-story { padding: 60px 5%; } /* 모바일에서는 여백 더 축소 */
     }
   </style>
 </head>
@@ -211,11 +223,13 @@
       <span class="story-line-wrap"><span class="story-line">가장 완벽한 디저트는 타협하지 않는</span></span>
       <span class="story-line-wrap"><span class="story-line">시간과 온도의 미학에서 탄생합니다.</span></span>
     </h2>
+    <p class="blab-story-desc blab-reveal-story">
+      <span class="story-line-wrap"><span class="story-line desc-line">우리는 대량 생산의 공식을 버리고 오직 본질적인 맛의 구조에 집중합니다. 세계 최고 수준의 원재료와 세밀한 수작업을 통해 완성된 에디토리얼 디저트 컬렉션을 경험해 보세요.</span></span>
+    </p>
   </section>
 
   <section class="blab-parallax-section">
     <div class="blab-parallax-bg"></div>
-    <a href="#menu" class="blab-more-btn">DISCOVER MORE</a>
   </section>
 
   <section class="blab-menu" id="menu">
@@ -242,6 +256,10 @@
         <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=800&q=80" alt="Eclair" class="blab-menu-img">
       </div>
     </div>
+    
+    <div class="blab-menu-action blab-reveal">
+      <a href="#order" class="blab-more-btn-dark">DISCOVER MORE</a>
+    </div>
   </section>
 
   <section class="blab-order" id="order">
@@ -257,7 +275,6 @@
     </div>
     <div class="blab-store-list">
       <div class="blab-section-header blab-reveal">Our Locations</div>
-      
       <div class="blab-store-item blab-reveal">
         <div class="store-name">Seoul Flagship</div>
         <div class="store-addr">서울특별시 강남구 테헤란로 123, 1F</div>
@@ -282,10 +299,10 @@
   </section>
 
   <footer class="blab-footer">
-    <div>&copy; 2026 BLAB DESSERT. All rights reserved.</div>
-    <div style="text-align: right;">
-      Seoul, South Korea
-      <span class="blab-footer-time" id="localTime">00:00:00</span>
+    <div>© 2026 BLAB DESSERT. All rights reserved.</div>
+    <div class="blab-footer-right">
+      <span>Seoul, South Korea</span>
+      <span class="blab-footer-time" id="localTime">00:00:00 KST</span>
     </div>
   </footer>
 
@@ -323,7 +340,7 @@
       }
     });
 
-    /* [수정6] 실시간 시계 로직 */
+    /* 실시간 시계 로직 */
     const timeDisplay = document.getElementById('localTime');
     setInterval(() => {
       const now = new Date();
